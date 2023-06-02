@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,16 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/friends', function () {
+    $users = User::all()->get();
+    return view('friends', compact('users'));
+})->middleware(['auth', 'verified'])->name('friends');
+
+Route::middleware('auth')->group(function () {
+    Route::post('friend', [FriendController::class, 'addFriend']);
+    Route::get('friend', [FriendController::class, 'getFriends']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

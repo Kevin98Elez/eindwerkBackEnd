@@ -9,6 +9,11 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+     protected $casts = [
+    'friends' => 'json',
+    ];
+
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -19,6 +24,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->json('friends')->nullable();
         });
     }
 
